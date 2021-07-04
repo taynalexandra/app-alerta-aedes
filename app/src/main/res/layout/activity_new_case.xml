@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".NewCaseActivity">
+    <include layout="@layout/toolbar_menu_icon" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:text="Tipo"
+                android:textSize="20sp" />
+
+            <Spinner
+                android:id="@+id/type_of_case"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:entries="@array/type_of_case" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:text="Sintomas"
+                android:textSize="20sp" />
+
+            <CheckBox
+                android:id="@+id/checkbox_febre_alta"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:onClick="onCheckboxClicked"
+                android:text="Febre Alta" />
+
+            <CheckBox
+                android:id="@+id/checkbox_febre_baixa_media"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:onClick="onCheckboxClicked"
+                android:text="Febre Baixa/Média" />
+
+            <CheckBox
+                android:id="@+id/checkbox_dores_articulacoes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:onClick="onCheckboxClicked"
+                android:text="Dores nas articulações" />
+
+            <CheckBox
+                android:id="@+id/checkbox_coceira"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:onClick="onCheckboxClicked"
+                android:text="Coceira" />
+
+            <CheckBox
+                android:id="@+id/checkbox_vermelhidao_olhos"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:onClick="onCheckboxClicked"
+                android:text="Vermelhidão nos olhos" />
+
+            <CheckBox
+                android:id="@+id/checkbox_manchas_pele"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:onClick="onCheckboxClicked"
+                android:text="Manchas vermelhas na pele" />
+
+            <CheckBox
+                android:id="@+id/checkbox_dor_cabeca"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:onClick="onCheckboxClicked"
+                android:text="Dor de cabeça" />
+
+            <CheckBox
+                android:id="@+id/checkbox_dor_muscular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:onClick="onCheckboxClicked"
+                android:text="Dor muscular" />
+
+            <CheckBox
+                android:id="@+id/checkbox_fraqueza"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:onClick="onCheckboxClicked"
+                android:text="Fraqueza" />
+
+            <CheckBox
+                android:id="@+id/checkbox_nauseas_vomito"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:onClick="onCheckboxClicked"
+                android:text="Náuseas e vômito" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="25dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/button_cancel"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/colorSecundaryText"
+                    android:onClick=""
+                    android:text="Cancelar"
+                    android:textColor="@color/white" />
+
+                <Button
+                    android:id="@+id/button_add"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/colorSecundaryText"
+                    android:onClick=""
+                    android:text="Adicionar"
+                    android:textColor="@color/white" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
