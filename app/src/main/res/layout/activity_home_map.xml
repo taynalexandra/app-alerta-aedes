@@ -19,19 +19,18 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             map:uiZoomControls="true"
-            map:cameraZoom="10"
+            map:cameraZoom="11"
             tools:context=".HomeMapActivity" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab"
+            android:id="@+id/fab_home"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginBottom="40dp"
             android:src="@drawable/ic_baseline_add"
             android:tint="@color/white"
-            android:layout_gravity="bottom|left"
-            android:onClick="newCaseTela"/>
+            android:layout_gravity="bottom|left"/>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 

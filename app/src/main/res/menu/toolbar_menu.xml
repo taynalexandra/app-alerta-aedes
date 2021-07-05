@@ -16,4 +16,9 @@
         android:icon="@drawable/ic_baseline_home"
         app:showAsAction="never"/>
 
+    <item android:id="@+id/log_out"
+        android:title="Sair"
+        android:icon="@drawable/ic_baseline_home"
+        app:showAsAction="never"/>
+
 </menu>

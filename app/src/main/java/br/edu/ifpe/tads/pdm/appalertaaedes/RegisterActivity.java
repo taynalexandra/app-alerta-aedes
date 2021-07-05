@@ -30,7 +30,9 @@ public class RegisterActivity extends AppCompatActivity {
         btRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getData();
+
+                //getData();
+                home(view);
             }
         });
     }

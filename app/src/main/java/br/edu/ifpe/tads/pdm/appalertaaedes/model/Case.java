@@ -9,6 +9,12 @@ public class Case {
     private List<String> symptoms;
     private LatLng latLng;
 
+    public Case(String type, List<String> symptoms, LatLng latLng) {
+        this.type = type;
+        this.symptoms = symptoms;
+        this.latLng = latLng;
+    }
+
     public String getType() {
         return type;
     }

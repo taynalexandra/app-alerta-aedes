@@ -23,6 +23,8 @@ public class LoginActivity extends AppCompatActivity {
         btRegister = (Button) findViewById(R.id.button_sing_out);
         btLogin = (Button) findViewById(R.id.button_sing_in);
 
+        btRegister.setBackgroundResource(R.color.colorSecundaryText);
+
         btRegister.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 register(v);

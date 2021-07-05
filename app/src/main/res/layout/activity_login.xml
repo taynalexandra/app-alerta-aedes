@@ -53,17 +53,16 @@
         android:text="Entrar"
         android:background="@color/colorSecundary"
         android:layout_marginTop="30dp"
-        android:textColor="@color/white"
-        android:onClick="homeTela"/>
+        android:textColor="@color/white"/>
 
     <Button
         android:id="@+id/button_sing_out"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Cadastre-se"
-        android:background="@color/colorSecundary"
         android:layout_marginTop="30dp"
-        android:textColor="@color/white"
-        android:onClick="cadastroTela"/>
+        android:background="@color/colorPrimaryText"
+        android:backgroundTint="#3A3939"
+        android:text="Cadastre-se"
+        android:textColor="@color/white" />
 
 </LinearLayout>
