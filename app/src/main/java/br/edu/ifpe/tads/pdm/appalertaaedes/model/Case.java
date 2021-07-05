@@ -5,6 +5,7 @@ import com.google.android.gms.maps.model.LatLng;
 import java.util.List;
 
 public class Case {
+    private int id;
     private String type;
     private List<String> symptoms;
     private LatLng latLng;
@@ -13,6 +14,14 @@ public class Case {
         this.type = type;
         this.symptoms = symptoms;
         this.latLng = latLng;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getType() {
