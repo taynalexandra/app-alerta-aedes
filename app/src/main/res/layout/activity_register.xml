@@ -3,20 +3,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginLeft="25dp"
+    android:layout_marginRight="25dp"
     android:orientation="vertical"
     tools:context=".RegisterActivity">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_margin="25dp">
+    <ImageView
+        android:id="@+id/image_logo"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_gravity="center"
+        android:src="@mipmap/ic_logo_foreground" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/register"
-            android:layout_marginTop="10dp"
             android:layout_marginBottom="20dp"
             android:layout_gravity="center"
             android:textSize="25sp"/>
@@ -25,7 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/name"
-            android:layout_marginTop="20dp"/>
+            android:layout_marginTop="10dp"/>
 
         <EditText
             android:id="@+id/edit_name"
@@ -36,6 +38,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
             android:text="@string/email" />
 
         <EditText
@@ -54,7 +57,7 @@
             android:id="@+id/edit_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="" />
+            android:inputType="textPassword"  />
 
         <Button
             android:id="@+id/button_sing_out"
@@ -64,6 +67,5 @@
             android:background="@color/colorSecundary"
             android:layout_marginTop="30dp"
             android:textColor="@color/white"
-            android:onClick="homeTela"/>
-    </LinearLayout>
+            android:onClick="home"/>
 </LinearLayout>

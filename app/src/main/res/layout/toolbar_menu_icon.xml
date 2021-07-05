@@ -10,11 +10,11 @@
         android:padding="16dp">
 
         <ImageView
-            android:id="@+id/icon_menu"
+            android:id="@+id/icon_logo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:src="@drawable/ic_baseline_menu"/>
+            android:src="@drawable/logo_action_bar"/>
 
         <TextView
             android:id="@+id/text_view_toolbar"
@@ -23,10 +23,19 @@
             android:layout_marginStart="16dp"
             android:textSize="20sp"
             android:layout_centerVertical="true"
-            android:layout_toEndOf="@+id/icon_menu"
+            android:layout_toEndOf="@id/icon_logo"
             android:text="Alerta Aedes"
             android:textColor="@color/white"/>
 
+        <ImageButton
+            android:id="@+id/icon_menu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_baseline_more_vert"
+            android:background="@color/colorPrimary"
+            android:onClick="showPopUp"/>
     </RelativeLayout>
 
 </RelativeLayout>

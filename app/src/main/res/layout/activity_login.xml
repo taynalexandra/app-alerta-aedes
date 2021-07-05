@@ -44,7 +44,7 @@
         android:id="@+id/edit_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="" />
+        android:inputType="textPassword" />
 
     <Button
         android:id="@+id/button_sing_in"
@@ -57,12 +57,12 @@
         android:onClick="homeTela"/>
 
     <Button
-        android:id="@+id/button_redirect_sing_out"
+        android:id="@+id/button_sing_out"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Cadastre-se"
-        android:background="@color/colorSecundaryText"
-        android:layout_marginTop="10dp"
+        android:background="@color/colorSecundary"
+        android:layout_marginTop="30dp"
         android:textColor="@color/white"
         android:onClick="cadastroTela"/>
 

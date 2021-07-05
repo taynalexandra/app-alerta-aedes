@@ -1,10 +1,19 @@
 package br.edu.ifpe.tads.pdm.appalertaaedes;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.PopupMenu;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -14,6 +23,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+
+import org.jetbrains.annotations.NotNull;
 
 import br.edu.ifpe.tads.pdm.appalertaaedes.databinding.ActivityHomeMapBinding;
 
@@ -38,6 +49,13 @@ public class HomeMapActivity extends FragmentActivity implements OnMapReadyCallb
 
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.toolbar_menu, menu);
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
@@ -52,13 +70,20 @@ public class HomeMapActivity extends FragmentActivity implements OnMapReadyCallb
         mMap = googleMap;
 
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+        LatLng sydney = new LatLng(-8.0586, -34.9498);
+        mMap.addMarker(new MarkerOptions().position(sydney).title("Dengue"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
     }
 
     public void newCaseTela(View view) {
         Intent intent = new Intent(this, NewCaseActivity.class);
         startActivity(intent);
+    }
+
+    public void showPopUp(View v) {
+        PopupMenu popup = new PopupMenu(this, v);
+        MenuInflater inflater = popup.getMenuInflater();
+        inflater.inflate(R.menu.toolbar_menu, popup.getMenu());
+        popup.show();
     }
 }

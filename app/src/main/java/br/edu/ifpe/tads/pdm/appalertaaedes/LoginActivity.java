@@ -12,23 +12,37 @@ import android.widget.Button;
 
 public class LoginActivity extends AppCompatActivity {
 
+    private Button btLogin;
+    private Button btRegister;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        Button button = (Button)findViewById(R.id.button_redirect_sing_out );
-        Drawable background = button.getBackground();
-        background.setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
+        btRegister = (Button) findViewById(R.id.button_sing_out);
+        btLogin = (Button) findViewById(R.id.button_sing_in);
+
+        btRegister.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                register(v);
+            }
+        });
+
+        btLogin.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                home(v);
+            }
+        });
     }
 
-    public void cadastroTela(View view) {
-        Intent intent = new Intent(this, RegisterActivity.class);
+    public void home(View view) {
+        Intent intent = new Intent(this, HomeMapActivity.class);
         startActivity(intent);
     }
 
-    public void homeTela(View view) {
-        Intent intent = new Intent(this, HomeMapActivity.class);
+    public void register(View view) {
+        Intent intent = new Intent(this, RegisterActivity.class);
         startActivity(intent);
     }
 }
