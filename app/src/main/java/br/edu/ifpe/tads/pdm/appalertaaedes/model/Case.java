@@ -5,24 +5,13 @@ import com.google.android.gms.maps.model.LatLng;
 import java.util.List;
 
 public class Case {
-    private int id;
+
     private String type;
     private List<String> symptoms;
-    private LatLng latLng;
+    private String lat;
+    private String lon;
 
-    public Case(String type, List<String> symptoms, LatLng latLng) {
-        this.type = type;
-        this.symptoms = symptoms;
-        this.latLng = latLng;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
+    public Case() {}
 
     public String getType() {
         return type;
@@ -40,11 +29,19 @@ public class Case {
         this.symptoms = symptoms;
     }
 
-    public LatLng getLatLng() {
-        return latLng;
+    public String getLat() {
+        return lat;
     }
 
-    public void setLatLng(LatLng latLng) {
-        this.latLng = latLng;
+    public void setLat(String lat) {
+        this.lat = lat;
+    }
+
+    public String getLon() {
+        return lon;
+    }
+
+    public void setLon(String lon) {
+        this.lon = lon;
     }
 }

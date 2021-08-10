@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "422092716330",
+    "project_id": "alerta-aedes-8b4e0",
+    "storage_bucket": "alerta-aedes-8b4e0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:422092716330:android:05c1e49a24d8a3e28e4653",
+        "android_client_info": {
+          "package_name": "br.edu.ifpe.tads.pdm.appalertaaedes"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "422092716330-dltar6dogin5bqgia9prmmdm4mjuac9c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCbGtVTrH9kIEBE8FkY247rmeNZzlViIs0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "422092716330-dltar6dogin5bqgia9prmmdm4mjuac9c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

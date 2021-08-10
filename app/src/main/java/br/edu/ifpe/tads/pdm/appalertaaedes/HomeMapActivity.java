@@ -3,14 +3,19 @@ package br.edu.ifpe.tads.pdm.appalertaaedes;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -29,18 +34,26 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import org.jetbrains.annotations.NotNull;
 
 import br.edu.ifpe.tads.pdm.appalertaaedes.databinding.ActivityHomeMapBinding;
+import br.edu.ifpe.tads.pdm.appalertaaedes.model.Focus;
+import br.edu.ifpe.tads.pdm.appalertaaedes.model.User;
 
-public class HomeMapActivity extends FragmentActivity implements OnMapReadyCallback {
+public class HomeMapActivity extends FragmentActivity implements OnMapReadyCallback, PopupMenu.OnMenuItemClickListener {
 
+    DrawerLayout drawerLayout;
     private GoogleMap mMap;
     private ActivityHomeMapBinding binding;
     private FloatingActionButton fabHome;
     private boolean fine_location;
     final int FINE_LOCATION_REQUEST = 0;
+    private FirebaseAuthListener authListener;
+    private FirebaseAuth mAuth;
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +61,8 @@ public class HomeMapActivity extends FragmentActivity implements OnMapReadyCallb
 
         binding = ActivityHomeMapBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        drawerLayout = findViewById(R.id.drawer_layout);
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -58,12 +73,125 @@ public class HomeMapActivity extends FragmentActivity implements OnMapReadyCallb
 
         fabHome = findViewById(R.id.fab_home);
 
+        //registerForContextMenu(fabHome);
+
         fabHome.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                newCase(v);
+                showMenu(v);
             }
         });
 
+        this.mAuth = FirebaseAuth.getInstance();
+        this.authListener = new FirebaseAuthListener(this);
+
+    }
+
+    public void showMenu(View v) {
+        PopupMenu popup = new PopupMenu(this, fabHome);
+        MenuInflater inflater = popup.getMenuInflater();
+        inflater.inflate(R.menu.floating_menu, popup.getMenu());
+        popup.setOnMenuItemClickListener(HomeMapActivity.this);
+        popup.show();
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_new_case:
+                Intent intentNewCase = new Intent(this, NewCaseActivity.class);
+                startActivity(intentNewCase);
+                return true;
+            case R.id.menu_new_focus:
+                Intent intentNewFocus = new Intent(this, FocusActivity.class);
+                startActivity(intentNewFocus);
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    public void ClickMenu(View view) {
+        openDrawer(drawerLayout);
+    }
+
+    public static void openDrawer(DrawerLayout drawerLayout) {
+        drawerLayout.openDrawer(GravityCompat.START);
+    }
+
+    public void ClickLogo(View view) {
+        closeDrawer(drawerLayout);
+    }
+
+    public static void closeDrawer(DrawerLayout drawerLayout) {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
+        }
+    }
+
+    public void ClickHome(View view) {
+        recreate();
+    }
+
+    public void ClickNewCase(View view) {
+        redirectActivity(this, NewCaseActivity.class);
+    }
+
+    public void ClickNewFocus(View view) {
+        redirectActivity(this, FocusActivity.class);
+    }
+
+    public void ClickInfo(View view) {
+        redirectActivity(this, InfoActivity.class);
+    }
+
+    public void ClickEstatistics(View view) {
+        redirectActivity(this, EstatisticsActivity.class);
+    }
+
+    public void ClickLogOut(View view) {
+        logout(this);
+    }
+
+    public static void logout(Activity activity) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+        builder.setTitle("Sair");
+        builder.setMessage("Tem certeza que deseja sair?");
+        builder.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                FirebaseAuth mAuth = FirebaseAuth.getInstance();
+                FirebaseUser user = mAuth.getCurrentUser();
+                if (user != null) {
+                    mAuth.signOut();
+                } else {
+                    Toast.makeText(activity, "Erro!", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+
+        builder.setNegativeButton("Não", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+
+        builder.show();
+    }
+
+    public static void redirectActivity(Activity activity, Class aClass) {
+        Intent intent = new Intent(activity, aClass);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+        activity.startActivity(intent);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        closeDrawer(drawerLayout);
     }
 
     private void requestPermissions() {
@@ -87,14 +215,6 @@ public class HomeMapActivity extends FragmentActivity implements OnMapReadyCallb
         }
     }
 
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.toolbar_menu, menu);
-
-        return super.onCreateOptionsMenu(menu);
-    }
-
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
@@ -109,9 +229,9 @@ public class HomeMapActivity extends FragmentActivity implements OnMapReadyCallb
         mMap = googleMap;
 
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-8.0586, -34.9498);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Dengue"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        LatLng ifpe = new LatLng(-8.0586, -34.9498);
+        mMap.addMarker(new MarkerOptions().position(ifpe).title("Dengue"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(ifpe));
 
         mMap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
             @Override
@@ -136,10 +256,14 @@ public class HomeMapActivity extends FragmentActivity implements OnMapReadyCallb
         startActivity(intent);
     }
 
-    public void showPopUp(View v) {
-        PopupMenu popup = new PopupMenu(this, v);
-        MenuInflater inflater = popup.getMenuInflater();
-        inflater.inflate(R.menu.toolbar_menu, popup.getMenu());
-        popup.show();
+    @Override
+    public void onStart() {
+        super.onStart();
+        mAuth.addAuthStateListener(authListener);
+    }
+    @Override
+    public void onStop() {
+        super.onStop();
+        mAuth.removeAuthStateListener(authListener);
     }
 }
