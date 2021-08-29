@@ -24,6 +24,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -36,11 +37,17 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import org.jetbrains.annotations.NotNull;
 
 import br.edu.ifpe.tads.pdm.appalertaaedes.databinding.ActivityHomeMapBinding;
 import br.edu.ifpe.tads.pdm.appalertaaedes.model.Focus;
+import br.edu.ifpe.tads.pdm.appalertaaedes.model.Ponto;
 import br.edu.ifpe.tads.pdm.appalertaaedes.model.User;
 
 public class HomeMapActivity extends FragmentActivity implements OnMapReadyCallback, PopupMenu.OnMenuItemClickListener {
@@ -54,6 +61,8 @@ public class HomeMapActivity extends FragmentActivity implements OnMapReadyCallb
     private FirebaseAuthListener authListener;
     private FirebaseAuth mAuth;
     private User user;
+
+    DatabaseReference drPonto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +93,32 @@ public class HomeMapActivity extends FragmentActivity implements OnMapReadyCallb
         this.mAuth = FirebaseAuth.getInstance();
         this.authListener = new FirebaseAuthListener(this);
 
+        FirebaseDatabase fbDB = FirebaseDatabase.getInstance("https://alerta-aedes-8b4e0-default-rtdb.firebaseio.com/");
+
+        drPonto = fbDB.getReference("cases");
+
+        drPonto.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                Ponto ponto = dataSnapshot.getValue(Ponto.class);
+                colocaPonto(ponto);
+
+            }
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) { }
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) { }
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) { }
+            @Override
+            public void onCancelled(DatabaseError databaseError) { }
+        });
+    }
+
+    private void colocaPonto(Ponto ponto) {
+        LatLng marcador = new LatLng(Double.parseDouble(ponto.getLat()), Double.parseDouble(ponto.getLon()));
+        mMap.addMarker(new MarkerOptions().position(marcador).title(ponto.getType()));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(marcador));
     }
 
     public void showMenu(View v) {
@@ -211,6 +246,16 @@ public class HomeMapActivity extends FragmentActivity implements OnMapReadyCallb
         this.fine_location = (requestCode == FINE_LOCATION_REQUEST) && granted;
 
         if (mMap != null) {
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+                return;
+            }
             mMap.setMyLocationEnabled(this.fine_location);
         }
     }
@@ -228,10 +273,6 @@ public class HomeMapActivity extends FragmentActivity implements OnMapReadyCallb
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        // Add a marker in Sydney and move the camera
-        LatLng ifpe = new LatLng(-8.0586, -34.9498);
-        mMap.addMarker(new MarkerOptions().position(ifpe).title("Dengue"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(ifpe));
 
         mMap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
             @Override
@@ -248,6 +289,16 @@ public class HomeMapActivity extends FragmentActivity implements OnMapReadyCallb
             }
         });
 
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
         mMap.setMyLocationEnabled(this.fine_location);
     }
 
