@@ -3,6 +3,7 @@
     package="br.edu.ifpe.tads.pdm.appalertaaedes" >
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-feature android:name="android.hardware.camera2" android:required="false" />
 
     <application
         android:allowBackup="true"

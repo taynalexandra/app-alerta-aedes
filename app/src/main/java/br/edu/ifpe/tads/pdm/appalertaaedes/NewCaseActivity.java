@@ -216,6 +216,7 @@ public class NewCaseActivity extends AppCompatActivity {
                     DatabaseReference drCases = FirebaseDatabase.getInstance("https://alerta-aedes-8b4e0-default-rtdb.firebaseio.com/").getReference("cases");
                     drCases.push().setValue(newCase);
 
+                    Toast.makeText(NewCaseActivity.this, "Caso inserido com sucesso!", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(NewCaseActivity.this, HomeMapActivity.class);
                     startActivity(intent);
                     break;
