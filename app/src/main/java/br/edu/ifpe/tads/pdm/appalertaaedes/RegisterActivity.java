@@ -93,4 +93,6 @@ public class RegisterActivity extends AppCompatActivity {
         mAuth.removeAuthStateListener(authListener);
     }
 
+    public void pesquisaDoenca(View view) {
+    }
 }

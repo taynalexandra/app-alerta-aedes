@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:id="@+id/drawer_layout"
     tools:context=".RegisterActivity">
+
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -37,6 +40,36 @@
                 android:src="@drawable/ic_baseline_add"
                 android:tint="@color/white"
                 android:layout_gravity="bottom|left"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                tools:context=".HomeMapActivity">
+
+                <EditText
+                    android:id="@+id/procureAqui"
+                    android:layout_width="280dp"
+                    android:layout_height="38dp"
+                    android:background="#706868"
+                    android:ems="10"
+                    android:hint="Procure Aqui"
+                    android:inputType="textPersonName"
+                    android:orientation="horizontal"
+                    android:layout_marginLeft="3dp"/>
+
+                <Button
+                    android:id="@+id/btnPesquisa"
+                    android:layout_width="119dp"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="#F30000"
+                    android:orientation="horizontal"
+                    android:text="Pesquisar"
+                    android:onClick="pesquisaDoenca"/>
+
+            </LinearLayout>
+
+
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
     </LinearLayout>
 

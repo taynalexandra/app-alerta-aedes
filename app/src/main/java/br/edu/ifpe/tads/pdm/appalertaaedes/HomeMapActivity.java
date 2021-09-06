@@ -22,9 +22,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
+import android.widget.RelativeLayout;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -74,6 +77,8 @@ public class HomeMapActivity extends FragmentActivity implements OnMapReadyCallb
     DatabaseReference drPonto;
 
     LatLng prov = null;
+
+    View mapView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -142,6 +147,7 @@ public class HomeMapActivity extends FragmentActivity implements OnMapReadyCallb
             public void onCancelled(DatabaseError databaseError) { }
         });
 
+        mapView = mapFragment.getView();
     }
 
     private void colocaPonto(Ponto ponto) {
@@ -152,6 +158,7 @@ public class HomeMapActivity extends FragmentActivity implements OnMapReadyCallb
         //mMap.addMarker(new MarkerOptions().position(marcador).title("Doença(s): "+ponto.getDescricao())).setIcon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_decama));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(marcador));
         listaMarker.add(marker);
+
 
     }
 
@@ -335,11 +342,39 @@ public class HomeMapActivity extends FragmentActivity implements OnMapReadyCallb
         }
         mMap.setMyLocationEnabled(this.fine_location);
 
+        if (mapView != null && mapView.findViewById(Integer.parseInt("1")) != null) {
+            // Get the button view
+            View locationButton = ((View) mapView.findViewById(Integer.parseInt("1")).getParent()).findViewById(Integer.parseInt("2"));
+            // and next place it, on bottom right (as Google Maps app)
+            RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams)
+                    locationButton.getLayoutParams();
+            // position on right bottom
+            layoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP, 0);
+            layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
+            layoutParams.setMargins(0, 0, 30, 280);
+        }
+
     }
 
     public void newCase(View view) {
         Intent intent = new Intent(this, NewCaseActivity.class);
         startActivity(intent);
+    }
+
+    public void pesquisaDoenca(View view){
+        String doenca = ((EditText)findViewById(R.id.procureAqui)).getText().toString();
+
+        mMap.clear();
+
+        for(Marker m : listaMarker){
+            String marcadorTitulo = m.getTitle().toLowerCase();
+            if(marcadorTitulo.contains(doenca.toLowerCase())){
+                LatLng marcador = m.getPosition();
+                m = mMap.addMarker(new MarkerOptions().position(marcador).title(m.getTitle()));
+                m.setIcon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_decama));
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(marcador));
+            }
+        }
     }
 
     @Override
