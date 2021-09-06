@@ -361,20 +361,32 @@ public class HomeMapActivity extends FragmentActivity implements OnMapReadyCallb
         startActivity(intent);
     }
 
-    public void pesquisaDoenca(View view){
-        String doenca = ((EditText)findViewById(R.id.procureAqui)).getText().toString();
-
-        mMap.clear();
-
-        for(Marker m : listaMarker){
-            String marcadorTitulo = m.getTitle().toLowerCase();
-            if(marcadorTitulo.contains(doenca.toLowerCase())){
+    public void pesquisaDoenca(View view) {
+        String doenca = ((EditText) findViewById(R.id.procureAqui)).getText().toString().toLowerCase();
+        Log.d("pesquisaDoenca",""+doenca);
+        if (doenca.contains("reset")) {
+            mMap.clear();
+            for (Marker m : listaMarker) {
+                String marcadorTitulo = m.getTitle().toLowerCase();
                 LatLng marcador = m.getPosition();
                 m = mMap.addMarker(new MarkerOptions().position(marcador).title(m.getTitle()));
                 m.setIcon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_decama));
                 mMap.moveCamera(CameraUpdateFactory.newLatLng(marcador));
             }
-        }
+        }else if(doenca.contains("zica") ||doenca.contains("dengue") ||doenca.contains("chikungunya")){
+
+            mMap.clear();
+
+            for (Marker m : listaMarker) {
+                String marcadorTitulo = m.getTitle().toLowerCase();
+                if (marcadorTitulo.contains(doenca.toLowerCase())) {
+                    LatLng marcador = m.getPosition();
+                    m = mMap.addMarker(new MarkerOptions().position(marcador).title(m.getTitle()));
+                    m.setIcon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_decama));
+                    mMap.moveCamera(CameraUpdateFactory.newLatLng(marcador));
+                }
+            }
+        }else{}
     }
 
     @Override
