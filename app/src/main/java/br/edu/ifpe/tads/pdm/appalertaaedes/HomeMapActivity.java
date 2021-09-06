@@ -15,6 +15,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -33,6 +34,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -45,6 +47,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
 
 import br.edu.ifpe.tads.pdm.appalertaaedes.databinding.ActivityHomeMapBinding;
 import br.edu.ifpe.tads.pdm.appalertaaedes.model.Focus;
@@ -62,6 +66,10 @@ public class HomeMapActivity extends FragmentActivity implements OnMapReadyCallb
     private FirebaseAuthListener authListener;
     private FirebaseAuth mAuth;
     private User user;
+    private ArrayList<Marker> listaMarker;
+
+    int cont = 0;
+    String temp;
 
     DatabaseReference drPonto;
 
@@ -100,11 +108,28 @@ public class HomeMapActivity extends FragmentActivity implements OnMapReadyCallb
 
         drPonto = fbDB.getReference("cases");
 
+        listaMarker = new ArrayList<>();
+
         drPonto.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 Ponto ponto = dataSnapshot.getValue(Ponto.class);
-                colocaPonto(ponto);
+                boolean existe = false;
+
+                for(Marker m : listaMarker){
+                    LatLng posicao = m.getPosition();
+                    if(posicao.latitude == Double.parseDouble(ponto.getLat()) && posicao.longitude == Double.parseDouble(ponto.getLon())){
+                        if(!m.getTitle().contains(ponto.getType())){
+                            m.setTitle(m.getTitle() + " | "+ ponto.getType());
+                        }
+                        existe = true;
+                        break;
+                    }
+                }
+
+                if(!existe){
+                    colocaPonto(ponto);
+                }
 
             }
             @Override
@@ -116,13 +141,17 @@ public class HomeMapActivity extends FragmentActivity implements OnMapReadyCallb
             @Override
             public void onCancelled(DatabaseError databaseError) { }
         });
+
     }
 
     private void colocaPonto(Ponto ponto) {
         LatLng marcador = new LatLng(Double.parseDouble(ponto.getLat()), Double.parseDouble(ponto.getLon()));
 
-        mMap.addMarker(new MarkerOptions().position(marcador).title("Doença(s): "+ponto.getType())).setIcon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_decama));
+        Marker marker = mMap.addMarker(new MarkerOptions().position(marcador).title("Doença(s): "+ponto.getType()));
+        marker.setIcon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_decama));
+        //mMap.addMarker(new MarkerOptions().position(marcador).title("Doença(s): "+ponto.getDescricao())).setIcon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_decama));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(marcador));
+        listaMarker.add(marker);
 
     }
 
@@ -305,6 +334,7 @@ public class HomeMapActivity extends FragmentActivity implements OnMapReadyCallb
             return;
         }
         mMap.setMyLocationEnabled(this.fine_location);
+
     }
 
     public void newCase(View view) {
